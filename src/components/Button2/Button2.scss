@@ -1,0 +1,22 @@
+@import "../../stylings/theme1.scss";
+
+.container {
+  width: $btnWidth;
+  height: $btnHeight;
+}
+
+.button {
+  background-color: $primaryColor;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2.8rem;
+}
+
+.text {
+  color: $textColor;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+}

@@ -1,0 +1,13 @@
+.container {
+  flex: 1;
+  align-items: center;
+}
+
+.background {
+  z-index: -100;
+  position: absolute;
+}
+
+.button {
+  margin-top: 1.2rem;
+}

@@ -1,0 +1,69 @@
+@import "../../stylings/theme1.scss";
+$mid: 44%;
+$side: calc((100% - $mid) / 2);
+
+.container {
+  width: $btnWidth;
+  height: $btnHeight;
+  display: flex;
+  flex-direction: row;
+  border-radius: 2.8rem;
+  background-color: $secondaryColor;
+}
+
+.left {
+  background-color: $primaryColor;
+  height: 100%;
+  width: $side;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2.8rem 0 0 2.8rem;
+}
+
+.right {
+  background-color: $primaryColor;
+  height: 100%;
+  width: $side;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 2.8rem 2.8rem 0;
+}
+
+.button {
+  background-color: $secondaryColor;
+  height: 100%;
+  width: $mid;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftTxt {
+  color: $textColor;
+  font-weight: 700;
+  font-size: 2rem;
+  text-align: center;
+}
+.rightTxt {
+  color: $textColor;
+  font-weight: 700;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.text {
+  color: $textColor;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  line-height: 1.7rem;
+}
+
+.textInput {
+  color: $textColor;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  line-height: 2rem;
+  position: absolute;
+  opacity: 0;
+}
