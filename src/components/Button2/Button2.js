@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Platform, Text, Pressable } from "react-native";
 import Styles from "./Button2.scss";
 
-const Button1 = ({ style, text, handlePress }) => {
+const Button2 = ({ handlePress, style, text }) => {
   return (
     <View style={{ ...style, ...Styles.container }}>
       <Pressable
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
           elevation: 5,
         },
 });
-export default Button1;
+export default Button2;

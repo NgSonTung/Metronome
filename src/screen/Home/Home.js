@@ -22,7 +22,34 @@ const Home = () => {
   const [play, setPlay] = useState(false);
   const animationFrameIdRef = useRef(null);
 
+  const lastTapTimeRef = useRef(0);
+  const tapCountRef = useRef(0);
+
+  const handleTap = () => {
+    const now = performance.now();
+    const lastTapTime = lastTapTimeRef.current;
+    const tapCount = tapCountRef.current;
+    if (now - lastTapTime > 2000) {
+      // more than 2 second since last tap, reset tap count
+      tapCountRef.current = 0;
+      setTempo(10);
+    } else {
+      tapCountRef.current = tapCount + 1;
+      if (tapCount === 1) {
+        //calculate tempo and reset tap count
+        const interval = now - lastTapTime;
+        const calculatedTempo = Math.round(60000 / interval);
+        calculatedTempo >= 10 && calculatedTempo <= 500
+          ? setTempo(calculatedTempo)
+          : setTempo(10);
+        tapCountRef.current = 0;
+      }
+    }
+    lastTapTimeRef.current = now;
+  };
+
   useEffect(() => {
+    console.log(tempo);
     setPlay(false);
   }, [tempo, sound]);
 
@@ -50,10 +77,7 @@ const Home = () => {
     let lastPlayTime = null;
     const interval = 60000 / tempo;
     const playSoundRAF = (timestamp) => {
-      if (
-        sound &&
-        (!lastPlayTime || timestamp - lastPlayTime >= interval - 10)
-      ) {
+      if (sound && (!lastPlayTime || timestamp - lastPlayTime >= interval)) {
         sound.replayAsync();
         lastPlayTime = timestamp;
       }
@@ -108,7 +132,11 @@ const Home = () => {
         right={"+"}
         handlePress={handleTempo}
       />
-      <Button2 style={Styles.button} text={"TAP TEMPO"} />
+      <Button2
+        handlePress={handleTap}
+        style={Styles.button}
+        text={"TAP TEMPO"}
+      />
       <Button3
         play={play}
         togglePlay={togglePlay}
