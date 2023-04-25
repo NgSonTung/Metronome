@@ -11,14 +11,15 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 const offSet = screenHeight - (screenHeight * 9) / 10;
 const minTempo = 10;
 const maxTempo = 500;
-const tsList = ["1/4", "2/4", "3/4", "4/4", "5/4", "3/8", "6/8"];
+const tsList = ["1/4", "2/4", "3/4", "4/4"];
 const soundList = ["sound1"];
 
 const Home = () => {
-  const [tempo, setTempo] = useState(110);
+  const [tempo, setTempo] = useState(150);
   const [ts, setTS] = useState(0);
   const [sound, setSound] = useState(0);
   const [soundFile, setSoundFile] = useState(null);
+  const [stressedSoundFile, setStressedSoundFile] = useState(null);
   const [play, setPlay] = useState(false);
   const animationFrameIdRef = useRef(null);
 
@@ -49,7 +50,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(tempo);
     setPlay(false);
   }, [tempo, sound]);
 
@@ -62,23 +62,45 @@ const Home = () => {
   };
 
   const stopSound = useCallback(async () => {
+    cancelAnimationFrame(animationFrameIdRef.current);
     if (soundFile) {
-      cancelAnimationFrame(animationFrameIdRef.current);
       await soundFile.stopAsync();
       await soundFile.setPositionAsync(0);
       await soundFile.unloadAsync();
     }
+    if (stressedSoundFile) {
+      await stressedSoundFile.stopAsync();
+      await stressedSoundFile.setPositionAsync(0);
+      await stressedSoundFile.unloadAsync();
+    }
   });
   const playSound = useCallback(async () => {
     const { sound } = await Audio.Sound.createAsync(
-      require(`../../../assets/sound1.mp3`)
+      require("../../../assets/sound1.mp3"),
+      { shouldPlay: true }
+    );
+    const { sound: stressedSound } = await Audio.Sound.createAsync(
+      require("../../../assets/sound1Stressed.mp3"),
+      { shouldPlay: true }
     );
     setSoundFile(sound);
+    setStressedSoundFile(stressedSound);
     let lastPlayTime = null;
-    const interval = 60000 / tempo;
+    const interval = 60000 / tempo - 15;
+    const maxBeats = parseInt(tsList[ts]);
+    let beat = 1;
     const playSoundRAF = (timestamp) => {
-      if (sound && (!lastPlayTime || timestamp - lastPlayTime >= interval)) {
-        sound.replayAsync();
+      if (!lastPlayTime || timestamp - lastPlayTime >= interval) {
+        console.log(beat);
+        if (beat === 1 && maxBeats !== 1) {
+          stressedSound?.replayAsync();
+        } else {
+          sound?.replayAsync();
+        }
+        beat++;
+        if (beat > maxBeats) {
+          beat = 1;
+        }
         lastPlayTime = timestamp;
       }
       animationFrameIdRef.current = requestAnimationFrame(playSoundRAF);
