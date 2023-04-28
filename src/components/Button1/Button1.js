@@ -7,9 +7,20 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-import Styles from "./Button1.scss";
+import theme1 from "../../stylings/theme1.scss";
+import theme2 from "../../stylings/theme2.scss";
+import theme3 from "../../stylings/theme3.scss";
 
-const Button1 = ({ text, tempo, style, left, right, handlePress, title }) => {
+const Button1 = ({
+  theme,
+  text,
+  tempo,
+  style,
+  left,
+  right,
+  handlePress,
+  title,
+}) => {
   const [value, setValue] = useState(String(tempo));
   const [intervalId, setIntervalId] = useState(null);
   const inputRef = useRef();
@@ -39,19 +50,53 @@ const Button1 = ({ text, tempo, style, left, right, handlePress, title }) => {
   }, [tempo, value]);
 
   return (
-    <View style={{ ...style, ...Styles.container, ...styles.shadow }}>
+    <View
+      style={{
+        ...style,
+        ...(theme === 0 && theme1.container),
+        ...(theme === 1 && theme2.container),
+        ...(theme === 2 && theme3.container),
+        ...styles.shadow,
+      }}
+    >
       <Pressable
         delayLongPress={300}
         onLongPress={() => handlePressIn(-1)}
         onPressOut={handlePressOut}
-        style={Styles.left}
+        style={{
+          ...(theme === 0 && theme1.left),
+          ...(theme === 1 && theme2.left),
+          ...(theme === 2 && theme3.left),
+        }}
         onPress={() => handlePress(-1)}
       >
-        <Text style={Styles.leftTxt}>{left}</Text>
+        <Text
+          style={{
+            ...(theme === 0 && theme1.leftTxt),
+            ...(theme === 1 && theme2.leftTxt),
+            ...(theme === 2 && theme3.leftTxt),
+          }}
+        >
+          {left}
+        </Text>
       </Pressable>
       {tempo ? (
-        <View style={Styles.button}>
-          <Text style={Styles.text}>{title}</Text>
+        <View
+          style={{
+            ...(theme === 0 && theme1.button1),
+            ...(theme === 1 && theme2.button1),
+            ...(theme === 2 && theme3.button1),
+          }}
+        >
+          <Text
+            style={{
+              ...(theme === 0 && theme1.text),
+              ...(theme === 1 && theme2.text),
+              ...(theme === 2 && theme3.text),
+            }}
+          >
+            {title}
+          </Text>
           <TextInput
             ref={inputRef}
             returnKeyType="done"
@@ -60,23 +105,51 @@ const Button1 = ({ text, tempo, style, left, right, handlePress, title }) => {
             onChangeText={(txt) => handlePress(txt, (input = true))}
             value={value}
             keyboardType="number-pad"
-            style={Styles.text}
+            style={{
+              ...(theme === 0 && theme1.text),
+              ...(theme === 1 && theme2.text),
+              ...(theme === 2 && theme3.text),
+            }}
           />
         </View>
       ) : (
-        <View style={Styles.button}>
-          <Text style={Styles.text}>{`${title}\n${text}`}</Text>
+        <View
+          style={{
+            ...(theme === 0 && theme1.button1),
+            ...(theme === 1 && theme2.button1),
+            ...(theme === 2 && theme3.button1),
+          }}
+        >
+          <Text
+            style={{
+              ...(theme === 0 && theme1.text),
+              ...(theme === 1 && theme2.text),
+              ...(theme === 2 && theme3.text),
+            }}
+          >{`${title}\n${text}`}</Text>
         </View>
       )}
 
       <Pressable
         delayLongPress={300}
-        style={Styles.right}
+        style={{
+          ...(theme === 0 && theme1.right),
+          ...(theme === 1 && theme2.right),
+          ...(theme === 2 && theme3.right),
+        }}
         onLongPress={() => handlePressIn(1)}
         onPressOut={handlePressOut}
         onPress={() => handlePress(1)}
       >
-        <Text style={Styles.rightTxt}>{right}</Text>
+        <Text
+          style={{
+            ...(theme === 0 && theme1.rightTxt),
+            ...(theme === 1 && theme2.rightTxt),
+            ...(theme === 2 && theme3.rightTxt),
+          }}
+        >
+          {right}
+        </Text>
       </Pressable>
     </View>
   );

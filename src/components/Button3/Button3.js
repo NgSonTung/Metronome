@@ -1,21 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, Platform, Pressable } from "react-native";
-import Styles from "./Button3.scss";
+import theme1 from "../../stylings/theme1.scss";
+import theme2 from "../../stylings/theme2.scss";
+import theme3 from "../../stylings/theme3.scss";
 import Play from "../../../assets/Play.svg";
 import Pause from "../../../assets/Pause.svg";
 
-const Button3 = ({ play, style, togglePlay }) => {
+const Button3 = ({ theme, play, style, togglePlay }) => {
   const handlePress = () => {
     togglePlay();
   };
 
   return (
-    <View style={{ ...style, ...Styles.container, ...styles.shadow }}>
+    <View
+      style={{
+        ...style,
+        ...(theme === 0 && theme1.play_container),
+        ...(theme === 1 && theme2.play_container),
+        ...(theme === 2 && theme3.play_container),
+        ...styles.shadow,
+      }}
+    >
       <Pressable
         onPress={handlePress}
-        style={{ ...Styles.button, ...styles.shadow }}
+        style={{
+          ...(theme === 0 && theme1.play_button),
+          ...(theme === 1 && theme2.play_button),
+          ...(theme === 2 && theme3.play_button),
+          ...styles.shadow,
+        }}
       >
-        {!play ? <Play style={Styles.play} /> : <Pause style={Styles.pause} />}
+        {!play ? (
+          <Play
+            style={{
+              ...(theme === 0 && theme1.play_icon),
+              ...(theme === 1 && theme2.play_icon),
+              ...(theme === 2 && theme3.play_icon),
+            }}
+          />
+        ) : (
+          <Pause
+            style={{
+              ...(theme === 0 && theme1.pause_icon),
+              ...(theme === 1 && theme2.pause_icon),
+              ...(theme === 2 && theme2.pause_icon),
+            }}
+          />
+        )}
       </Pressable>
     </View>
   );
